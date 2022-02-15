@@ -32,12 +32,7 @@ public class ExpenseController {
 	public List<Expense> getExpenses() {
 		return expenseService.getExpenses();
 	}
-	
-	/*
-	 * @DeleteMapping public void deleteExpense(@RequestParam Long id) {
-	 * expenseService.deteteExpense(id); }
-	 */
-	
+
 	@DeleteMapping(path = "/{id}")
 	public void deleteExpense(@PathVariable(name="id") Long id) {
 	 expenseService.deteteExpense(id);
