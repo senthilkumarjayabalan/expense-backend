@@ -24,6 +24,10 @@ public class ExpenseService {
 		return expenseRepository.findAll();
 	}
 	
+	public List<Expense> getExpensesByUserEmail(String email){
+		return expenseRepository.findByUserEmail(email);
+	}
+	
 	public void deteteExpense(Long id) {
 		 expenseRepository.deleteById(id);
 	}

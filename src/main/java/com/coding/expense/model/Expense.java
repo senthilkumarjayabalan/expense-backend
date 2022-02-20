@@ -22,4 +22,6 @@ public class Expense {
 	
 	private Long amount;
 	
+	private String userEmail;
+	
 }

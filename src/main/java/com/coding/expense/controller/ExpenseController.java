@@ -3,6 +3,9 @@ package com.coding.expense.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +19,8 @@ import com.coding.expense.model.Expense;
 import com.coding.expense.service.ExpenseService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
-@RequestMapping("api/v1/expense")
+//@CrossOrigin(origins = "http://localhost:3000"  ,exposedHeaders = "Authorization" ,allowedHeaders = "Authorization" )
+@RequestMapping("api/v1/expense" )
 public class ExpenseController {
 	
 	@Autowired
@@ -25,12 +28,16 @@ public class ExpenseController {
 	
 	@PostMapping
 	public void addExpense(@RequestBody Expense expense) {
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		expense.setUserEmail(((User) authentication.getPrincipal()).getUsername());
 		expenseService.addExpense(expense);
 	}
 	
 	@GetMapping
 	public List<Expense> getExpenses() {
-		return expenseService.getExpenses();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		return expenseService.getExpensesByUserEmail(((User) authentication.getPrincipal()).getUsername());
 	}
 
 	@DeleteMapping(path = "/{id}")
